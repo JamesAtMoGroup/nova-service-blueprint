@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08070a">
+<title>NOVA 學員服務藍圖 — AI 教練 × LINE 主動關懷</title>
+<style>
+  :root{
+    --bg:#08070a; --bg2:#100e12; --panel:#15121a; --panel2:#1b1720;
+    --line-soft:rgba(255,255,255,.08); --line-mid:rgba(255,138,50,.28);
+    --ink:#f2eee9; --ink2:#a39a90; --ink3:#6d655c;
+    --acc:#ff8a32; --acc2:#ffb066;
+    --gold:#E8C874; --gold-deep:#9A7B2E; --navy:#1B2036;
+    --line-green:#06C755;
+    --maxw:1120px;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+    --sans:system-ui,-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0}
+  .wrap{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+  .wrap::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(1200px 620px at 78% -8%, rgba(255,138,50,.16), transparent 62%),
+      radial-gradient(900px 500px at 8% 4%, rgba(255,138,50,.06), transparent 60%);}
+  .inner{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  section{position:relative;z-index:1}
+
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--acc);display:inline-flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--acc);opacity:.7}
+  h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.01em}
+  h1{font-size:clamp(34px,5.4vw,60px);font-weight:800;line-height:1.08}
+  h2{font-size:clamp(26px,3.6vw,40px);font-weight:800;line-height:1.14}
+  h3{font-size:19px;font-weight:700}
+  p{margin:0}
+  .lead{color:var(--ink2);font-size:clamp(16px,1.9vw,19px);max-width:60ch}
+
+  /* corner cross ticks — NOVA 招牌 */
+  .tick{position:relative}
+  .tick::before,.tick::after{content:"";position:absolute;width:9px;height:9px;opacity:.55;z-index:2}
+  .tick::before{top:-1px;left:-1px;border-top:1px solid var(--acc);border-left:1px solid var(--acc)}
+  .tick::after{bottom:-1px;right:-1px;border-bottom:1px solid var(--acc);border-right:1px solid var(--acc)}
+
+  /* HERO */
+  .hero{padding:76px 0 40px}
+  .hex-badge{width:66px;height:66px;display:block;filter:drop-shadow(0 0 22px rgba(255,138,50,.35))}
+  .hero h1{margin-top:24px}
+  .hero h1 .ac{color:var(--acc);font-style:italic}
+  .hero .lead{margin-top:20px;font-size:clamp(17px,2.2vw,21px)}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink2);border:1px solid var(--line-soft);border-radius:999px;padding:7px 13px;
+    background:rgba(255,255,255,.02)}
+  .chip.on{color:var(--acc2);border-color:var(--line-mid)}
+
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line-soft) 12%,var(--line-soft) 88%,transparent);
+    margin:8px 0;position:relative}
+  .divider::before{content:"+";position:absolute;left:50%;top:-9px;transform:translateX(-50%);
+    color:var(--ink3);font-family:var(--mono);font-size:14px}
+
+  /* section shell */
+  .band{padding:60px 0}
+  .band-head{display:flex;flex-direction:column;gap:16px;max-width:64ch}
+  .band-head .when{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+  .when.now{color:#7dd88f}.when.soon{color:var(--acc2)}
+  .when .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:8px;vertical-align:middle}
+  .now .dot{background:#7dd88f;box-shadow:0 0 8px #7dd88f}
+  .soon .dot{background:var(--acc);box-shadow:0 0 8px var(--acc)}
+
+  .layout{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:start;margin-top:38px}
+  .layout.flip{grid-template-columns:.95fr 1.05fr}
+  .layout.flip .mock{order:-1}
+
+  .feat{display:flex;flex-direction:column;gap:2px}
+  .feat li{list-style:none;display:grid;grid-template-columns:26px 1fr;gap:14px;
+    padding:16px 0;border-top:1px solid var(--line-soft)}
+  .feat li:first-child{border-top:0}
+  .feat .ic{width:26px;height:26px;color:var(--acc);margin-top:2px}
+  .feat b{display:block;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:3px}
+  .feat span{color:var(--ink2);font-size:14.5px;line-height:1.6}
+
+  /* phone frame */
+  .mock{position:relative}
+  .phone{width:300px;max-width:100%;margin:0 auto;border-radius:34px;padding:11px;
+    background:linear-gradient(160deg,#26222c,#141018);
+    box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05),0 0 44px rgba(255,138,50,.1);}
+  .screen{border-radius:25px;overflow:hidden;background:#0b0a0e;position:relative}
+  .statusbar{height:30px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 16px;font-family:var(--mono);font-size:11px;color:#cbc4bc;background:#08070a}
+  .statusbar .r{display:flex;gap:5px;align-items:center;opacity:.8}
+
+  /* chat mock */
+  .chat-head{display:flex;align-items:center;gap:9px;padding:11px 13px;background:#08070a;
+    border-bottom:1px solid var(--line-mid)}
+  .chat-head svg{width:24px;height:24px;flex:none}
+  .chat-head b{font-size:13.5px;font-weight:700}
+  .chat-head small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink2)}
+  .chat-body{padding:14px 12px;display:flex;flex-direction:column;gap:9px;min-height:300px;
+    background:radial-gradient(120% 80% at 100% 0,rgba(255,138,50,.06),transparent 60%),#0b0a0e}
+  .bub{max-width:82%;padding:9px 12px;border-radius:14px;font-size:13px;line-height:1.55}
+  .bub.co{align-self:flex-start;background:#17141a;border:1px solid rgba(255,255,255,.06);
+    border-top-left-radius:4px;color:#ece7e1}
+  .bub.me{align-self:flex-end;background:var(--acc);color:#1a1206;border-top-right-radius:4px;font-weight:500}
+  .bub .att{display:inline-flex;align-items:center;gap:5px;background:rgba(0,0,0,.14);
+    border-radius:7px;padding:3px 7px;font-size:11px;margin-bottom:5px}
+  .chat-foot{display:flex;align-items:center;gap:7px;padding:8px 10px;background:#08070a;
+    border-top:1px solid rgba(255,138,50,.16)}
+  .chat-foot .box{flex:1;background:#111015;border:1px solid rgba(255,255,255,.1);
+    border-radius:11px;padding:8px 10px;font-size:12px;color:var(--ink3)}
+  .cbtn{width:30px;height:30px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center}
+  .cbtn.o{background:var(--acc);color:#1a1206}.cbtn.g{background:#111015;color:var(--acc);border:1px solid rgba(255,255,255,.1)}
+  .cbtn svg{width:16px;height:16px}
+
+  /* LINE mock */
+  .line-top{height:34px;display:flex;align-items:center;gap:8px;padding:0 12px;background:#1f1f22;color:#eee}
+  .line-top .dot{width:24px;height:24px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center}
+  .line-top .dot svg{width:15px;height:15px}
+  .line-top b{font-size:12.5px}
+  .line-scr{background:#8fa6c4;background:linear-gradient(180deg,#93a7c0,#7f93ad);padding:14px 12px;min-height:330px}
+  .lcard{border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.22);max-width:230px}
+  .lcard .hd{background:var(--navy);padding:13px 15px}
+  .lcard .hd b{color:var(--gold);font-size:14px;font-weight:800;letter-spacing:.02em}
+  .lcard .hd small{display:block;color:var(--gold-deep);font-size:10px;margin-top:3px;font-family:var(--mono);letter-spacing:.08em}
+  .lcard .bd{padding:14px 15px;color:#2c2c2c;font-size:12.5px;line-height:1.6}
+  .lcard .stat{display:flex;gap:8px;margin:10px 0 4px}
+  .lcard .stat .s{flex:1;background:#f4efe3;border-radius:9px;padding:8px 9px;text-align:center}
+  .lcard .stat .s .n{font-size:17px;font-weight:800;color:var(--gold-deep);font-variant-numeric:tabular-nums}
+  .lcard .stat .s .k{font-size:9.5px;color:#8a8175;letter-spacing:.04em}
+  .lbtn{margin:12px 15px 15px;background:var(--gold-deep);color:#fff;text-align:center;
+    padding:11px;border-radius:9px;font-size:13px;font-weight:700}
+  .ltime{font-size:10px;color:rgba(255,255,255,.75);margin:6px 4px 0;font-family:var(--mono)}
+
+  /* push notification banner */
+  .push{margin:0 auto 12px;max-width:250px;background:rgba(30,30,34,.94);backdrop-filter:blur(8px);
+    border-radius:15px;padding:10px 12px;display:flex;gap:9px;align-items:flex-start;
+    box-shadow:0 10px 26px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.07)}
+  .push .ico{width:30px;height:30px;border-radius:8px;background:var(--navy);flex:none;display:flex;align-items:center;justify-content:center}
+  .push .ico svg{width:18px;height:18px}
+  .push .tx b{display:block;font-size:11.5px;color:#fff}
+  .push .tx span{font-size:11px;color:#c9c9cf;line-height:1.4;display:block;margin-top:1px}
+  .push .tx small{font-size:9.5px;color:#8a8a92;font-family:var(--mono)}
+
+  .mock-cap{text-align:center;margin-top:18px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+
+  /* loop diagram */
+  .loop{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center;margin-top:34px}
+  .loop .node{border:1px solid var(--line-soft);border-radius:16px;padding:24px;background:linear-gradient(180deg,var(--panel),var(--bg2))}
+  .loop .node h3{color:var(--acc2)}
+  .loop .node p{color:var(--ink2);font-size:14px;margin-top:8px}
+  .loop .arrows{display:flex;flex-direction:column;gap:10px;color:var(--acc);font-family:var(--mono);font-size:22px;text-align:center}
+  .loop .arrows span:last-child{color:var(--ink3)}
+
+  /* closing */
+  .close{padding:64px 0 34px;text-align:center}
+  .close .big{font-size:clamp(22px,3vw,34px);font-weight:800;max-width:24ch;margin:20px auto 0;line-height:1.4}
+  .close .big .ln{display:block;text-wrap:balance;line-break:strict}
+  .close .big .ln+.ln{margin-top:6px}
+  .close .big .ac{color:var(--acc);font-style:italic}
+
+  .foot{border-top:1px solid var(--line-soft);padding:26px 0 46px;margin-top:40px}
+  .foot .inner{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--ink3)}
+  .foot b{color:var(--ink2)}
+
+  .reveal{opacity:0;transform:translateY(18px)}
+  .reveal.in{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+
+  @media(max-width:860px){
+    .layout,.layout.flip{grid-template-columns:1fr;gap:30px}
+    .layout.flip .mock{order:0}
+    .loop{grid-template-columns:1fr}
+    .loop .arrows{flex-direction:row;justify-content:center}
+  }
+
+  @media(max-width:560px){
+    .inner{padding:0 16px}
+    .hero{padding:52px 0 30px}
+    .band{padding:44px 0}
+    .layout,.layout.flip{gap:26px}
+    .hero-meta .chip{font-size:10.5px;padding:6px 10px}
+    .loop .node{padding:18px}
+    .phone{width:270px}
+    .bub{font-size:12.5px}
+    .feat li{grid-template-columns:22px 1fr;gap:11px;padding:14px 0}
+    .feat .ic{width:22px;height:22px}
+  }
+  @media(max-width:380px){ .phone{width:100%} .lcard,.push{max-width:100%} }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="inner">
+      <svg class="hex-badge" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2.4 L20 7 L20 17 L12 21.6 L4 17 L4 7 Z" stroke="#ff8a32" stroke-width="1.3" stroke-linejoin="round"/>
+        <path d="M12 7.6 L13.4 11 L16.8 12 L13.4 13 L12 16.4 L10.6 13 L7.2 12 L10.6 11 Z" fill="#ffb066"/>
+      </svg>
+      <div style="margin-top:22px" class="eyebrow">NOVA 超星計畫 · 學員服務藍圖</div>
+      <h1 style="margin-top:14px">從第一天到交出作品，<br><span class="ac">你的 AI 教練</span>一路都在。</h1>
+      <p class="lead">NOVA 給每位學員兩個 24 小時在身邊的夥伴：網站上懂你、記得你的 <b style="color:var(--ink)">AI 教練</b>，以及會主動關心、把你帶回來的 <b style="color:var(--ink)">NOVA LINE</b>。這頁帶你看它們現在能做什麼、課程上線後還會做什麼。</p>
+      <div class="hero-meta">
+        <span class="chip on">● 網頁 AI 教練｜現已上線</span>
+        <span class="chip">課程上線後：懂你的學習進度</span>
+        <span class="chip">NOVA LINE：主動關心 + 帶你回來</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="inner"><div class="divider"></div></div>
+
+  <!-- PILLAR 1 : WEB COACH NOW -->
+  <section class="band">
+    <div class="inner">
+      <div class="band-head reveal">
+        <div class="when now"><span class="dot"></span>現在就有 · 網站右下角</div>
+        <h2>網頁 AI 教練：一個懂你、記得你的大姐姐老師</h2>
+        <p class="lead">打開 NOVA 網站，右下角就有你的專屬教練。她不是罐頭客服，是一位溫暖、會鼓勵你、記得你在忙什麼的老師。</p>
+      </div>
+
+      <div class="layout">
+        <ul class="feat reveal">
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zM5 20a7 7 0 0114 0"/></svg>
+            <div><b>認得你，也記得你</b><span>記住你希望被怎麼稱呼、你在做的專案、上次聊到哪。換一台裝置、隔幾天回來，她都接得上，不會每次都從頭問。</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z"/></svg>
+            <div><b>會共情、會鼓勵你</b><span>你緊張、沒信心，她會先接住你的情緒再帶你往前。像真的有一個懂你又挺你的前輩在旁邊。</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+            <div><b>依你選的領域帶你走</b><span>她知道你報的是行銷、設計、自媒體、產品設計還是工程設計，用對的方式引導你，幫你定義第一個交得出去的作品。</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v12H4z"/><path d="M8 21h8M9 9l3 3 3-4"/></svg>
+            <div><b>看得懂你丟的東西</b><span>截圖、錄音、影片、文件都能上傳讓她幫你看；截圖也能直接貼上；不想打字，直接對她講話也行。</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            <div><b>需要真人，幫你接上</b><span>遇到合約、報名這類要真人處理的事，她會直接把你帶到官方 LINE，有專人接手，不讓你卡住。</span></div></li>
+        </ul>
+
+        <div class="mock reveal">
+          <div class="phone tick">
+            <div class="screen">
+              <div class="statusbar"><span>9:41</span><span class="r">◐ ᯤ ▮▮▮</span></div>
+              <div class="chat-head">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L19 7.5 L19 16.5 L12 21 L5 16.5 L5 7.5 Z" stroke="#ff8a32" stroke-width="1.4" stroke-linejoin="round"/><path d="M12 8 L13.1 10.9 L16 12 L13.1 13.1 L12 16 L10.9 13.1 L8 12 L10.9 10.9 Z" fill="#ffb066"/></svg>
+                <div><b>NOVA AI 教練</b><small>Learning Coach</small></div>
+              </div>
+              <div class="chat-body">
+                <div class="bub co">嗨阿宏，記住你了。想做記帳工具當作品這個方向選得很好，實用又有感。</div>
+                <div class="bub me">但我完全是新手，會不會太難啊</div>
+                <div class="bub co">這種擔心超正常的，幾乎每個新手都會。我跟你說，這裡不是要你先記一堆知識，是每週做出一個小東西慢慢累積。你先想想，這個記帳工具是要做給誰用的？</div>
+                <div class="bub me"><span class="att">🖼️ 截圖.png</span>我畫了一個草稿你看看</div>
+                <div class="bub co">畫得很清楚！你願意先動手畫，就已經超越很多人了。我們先把這個當第一版，弄好回來跟我說，我陪你一起看下一步好不好？</div>
+              </div>
+              <div class="chat-foot">
+                <div class="cbtn g">＋</div>
+                <div class="box">輸入訊息…</div>
+                <div class="cbtn o"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12 L20 4 L14 20 L11 13 Z" fill="currentColor"/></svg></div>
+              </div>
+            </div>
+          </div>
+          <div class="mock-cap">網站右下角的 AI 教練聊天視窗</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="inner"><div class="divider"></div></div>
+
+  <!-- PILLAR 2 : FUTURE / COURSE -->
+  <section class="band">
+    <div class="inner">
+      <div class="band-head reveal">
+        <div class="when soon"><span class="dot"></span>課程上線後 · 即將推出</div>
+        <h2>你上課上到哪，她就懂到哪</h2>
+        <p class="lead">課程影片一上線，AI 教練就能看到你的學習狀況，針對你正在看、正在卡的地方幫你。</p>
+      </div>
+
+      <div class="layout flip">
+        <div class="mock reveal">
+          <div class="phone tick">
+            <div class="screen">
+              <div class="statusbar"><span>9:41</span><span class="r">◐ ᯤ ▮▮▮</span></div>
+              <div class="chat-head">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L19 7.5 L19 16.5 L12 21 L5 16.5 L5 7.5 Z" stroke="#ff8a32" stroke-width="1.4" stroke-linejoin="round"/><path d="M12 8 L13.1 10.9 L16 12 L13.1 13.1 L12 16 L10.9 13.1 L8 12 L10.9 10.9 Z" fill="#ffb066"/></svg>
+                <div><b>NOVA AI 教練</b><small>第 5 堂 · 內容矩陣</small></div>
+              </div>
+              <div class="chat-body">
+                <div class="bub me">老師這段講太多我有點跟不上</div>
+                <div class="bub co">我看到你這支影片看到 12:30，大概 28%，後面還有不少，跟不上很正常的。這堂的核心就是用 AI 一次生出多角度文案，你不用一條一條想。</div>
+                <div class="bub co">與其急著看完，不如先停在這，你手邊有沒有真的想寫文案的東西？我們拿出來實際跑一次，你會比光看影片吸收快很多。</div>
+                <div class="bub me">幫我總結這一頁的重點</div>
+                <div class="bub co">好，這堂重點三個：一是用 Claude 生成文案矩陣，二是 Hook 設計的判準，三是挑一版實際發出去看數據。要不要我陪你先做第一個？</div>
+              </div>
+              <div class="chat-foot">
+                <div class="cbtn g">＋</div>
+                <div class="box">輸入訊息…</div>
+                <div class="cbtn o"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12 L20 4 L14 20 L11 13 Z" fill="currentColor"/></svg></div>
+              </div>
+            </div>
+          </div>
+          <div class="mock-cap">看課程影片時，教練懂你看到哪</div>
+        </div>
+
+        <ul class="feat reveal">
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 5v14l11-7z"/></svg>
+            <div><b>知道你影片看到哪</b><span>「這支你看到 12:30、整體看了一半了」。她讀得到你的觀看進度，針對你正卡住的段落給你幫助，也適時給你鼓勵。</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v12H4z"/><path d="M4 20h16"/></svg>
+            <div><b>一句話總結你正在看的課</b><span>「幫我總結這頁」，她就把你眼前這堂課的重點整理給你，讓你先抓到全貌再往下學。</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+            <div><b>懂課程在教什麼</b><span>你遇到的問題，如果課程有教，她會直接告訴你「這個第幾堂有講到」，讓你回去看，而不是自己給你一個囫圇的答案。</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="inner"><div class="divider"></div></div>
+
+  <!-- PILLAR 3 : NOVA LINE -->
+  <section class="band">
+    <div class="inner">
+      <div class="band-head reveal">
+        <div class="when soon"><span class="dot"></span>NOVA LINE · 即將推出</div>
+        <h2>好久沒來？她會主動關心你，把你帶回來</h2>
+        <p class="lead">學習最怕的就是不小心停下來。NOVA LINE 會在對的時機傳一則貼心通知，提醒你、關心你，一鍵就能回來繼續。</p>
+      </div>
+
+      <div class="layout">
+        <ul class="feat reveal">
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+            <div><b>好久沒來，主動關心你</b><span>超過兩天沒互動，她會傳一則貼心的 LINE，而且記得你上次在忙什麼：「上次說要做的記帳工具後來還好嗎？」讓你覺得真的有人在乎。</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg>
+            <div><b>每週一，給你一份學習週報</b><span>幫你看這週的影片進度和專案班參與。順利就替你開心、幫你加油；狀況不好，就用關心的角度陪你，而不是催你。</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <div><b>一鍵回來繼續</b><span>每則 LINE 通知都有一顆按鈕，點下去就直接回到你的 NOVA 主頁，接著剛才的話題跟教練繼續聊。</span></div></li>
+          <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M9 12l2 2 4-4"/></svg>
+            <div><b>只通知、不打擾</b><span>LINE 純粹用來提醒和把你帶回來。真正的深入服務和真人諮詢各有專屬窗口，不會在 LINE 上疲勞轟炸你。</span></div></li>
+        </ul>
+
+        <div class="mock reveal">
+          <div class="phone tick">
+            <div class="screen">
+              <div class="statusbar"><span>13:00</span><span class="r">◐ ᯤ ▮▮▮</span></div>
+              <div class="line-top">
+                <span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L19 7.5 L19 16.5 L12 21 L5 16.5 L5 7.5 Z" stroke="#E8C874" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+                <b>NOVA超星計畫課務幫手</b>
+              </div>
+              <div class="line-scr">
+                <!-- push banner -->
+                <div class="push">
+                  <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L19 7.5 L19 16.5 L12 21 L5 16.5 L5 7.5 Z" stroke="#E8C874" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+                  <div class="tx"><b>NOVA AI 教練</b><span>阿宏，你的一週學習回顧來囉！</span><small>現在</small></div>
+                </div>
+                <!-- weekly report card -->
+                <div class="lcard">
+                  <div class="hd"><b>NOVA AI 教練</b><small>這週學習回顧</small></div>
+                  <div class="bd">
+                    阿宏，這禮拜辛苦囉！我幫你看了一下你的學習狀況：
+                    <div class="stat">
+                      <div class="s"><div class="n">52%</div><div class="k">影片進度</div></div>
+                      <div class="s"><div class="n">4/5</div><div class="k">專案班出席</div></div>
+                    </div>
+                    影片已經過半了，專案班也都有持續參與，維持得很好！繼續保持，你離做出作品又更近一步了。
+                  </div>
+                  <div class="lbtn">回去跟教練聊 →</div>
+                  <div class="ltime">週一 13:00 · 自動彙整</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mock-cap">每週一自動送達的學習週報</div>
+        </div>
+      </div>
+
+      <!-- second LINE card : care follow up -->
+      <div class="layout flip" style="margin-top:52px">
+        <div class="mock reveal">
+          <div class="phone tick">
+            <div class="screen">
+              <div class="statusbar"><span>20:30</span><span class="r">◐ ᯤ ▮▮▮</span></div>
+              <div class="line-top">
+                <span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L19 7.5 L19 16.5 L12 21 L5 16.5 L5 7.5 Z" stroke="#E8C874" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+                <b>NOVA超星計畫課務幫手</b>
+              </div>
+              <div class="line-scr">
+                <div class="push">
+                  <div class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L19 7.5 L19 16.5 L12 21 L5 16.5 L5 7.5 Z" stroke="#E8C874" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+                  <div class="tx"><b>NOVA AI 教練</b><span>好久沒看到你了，還好嗎？</span><small>現在</small></div>
+                </div>
+                <div class="lcard">
+                  <div class="hd"><b>NOVA AI 教練</b><small>你的專屬學習陪跑</small></div>
+                  <div class="bd">
+                    阿宏，好幾天沒看到你來了，還好嗎？<br><br>
+                    上次你提到想做的那個記帳小工具，後來有沒有動起來呀？不管是卡住了還是還沒開始，都沒關係，回來跟我說一聲，我陪你一起看下一步就好。
+                  </div>
+                  <div class="lbtn">回去跟教練聊 →</div>
+                  <div class="ltime">閒置超過 48 小時 · 主動關心</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mock-cap">兩天沒來，主動關心的追問通知</div>
+        </div>
+        <div class="band-head reveal" style="align-self:center">
+          <div class="eyebrow">為什麼這很重要</div>
+          <h3 style="font-size:23px;margin-top:6px">學生最容易在「停下來」時流失</h3>
+          <p class="lead" style="font-size:16px">一忙、一卡住，很多人就不小心停在那裡。NOVA LINE 的角色，就是在他快要放掉的時候，用一則帶著溫度、又記得他的通知，輕輕把他接回來。這是讓學員真的走到終點、做出作品的關鍵一環。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="inner"><div class="divider"></div></div>
+
+  <!-- LOOP -->
+  <section class="band">
+    <div class="inner">
+      <div class="band-head reveal">
+        <div class="when soon"><span class="dot" style="background:var(--acc);box-shadow:0 0 8px var(--acc)"></span>服務閉環</div>
+        <h2>網站深度陪跑，LINE 負責把你找回來</h2>
+      </div>
+      <div class="loop reveal">
+        <div class="node tick">
+          <div class="eyebrow" style="font-size:11px">網站上</div>
+          <h3 style="margin-top:10px">AI 教練 · 深度陪跑</h3>
+          <p>記得你、懂你的領域、看得懂你上傳的東西、懂你上課到哪。真正的一對一陪跑都在這裡發生。</p>
+        </div>
+        <div class="arrows"><span>→</span><span>←</span></div>
+        <div class="node tick">
+          <div class="eyebrow" style="font-size:11px">LINE 上</div>
+          <h3 style="margin-top:10px">NOVA LINE · 找得到你</h3>
+          <p>你離開網站後，用一則貼心通知關心你、給你週報，再用一顆按鈕把你帶回網站繼續。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <section class="close">
+    <div class="inner">
+      <svg class="hex-badge" style="margin:0 auto" viewBox="0 0 24 24" fill="none"><path d="M12 2.4 L20 7 L20 17 L12 21.6 L4 17 L4 7 Z" stroke="#ff8a32" stroke-width="1.3" stroke-linejoin="round"/><path d="M12 7.6 L13.4 11 L16.8 12 L13.4 13 L12 16.4 L10.6 13 L7.2 12 L10.6 11 Z" fill="#ffb066"/></svg>
+      <p class="big"><span class="ln">在 NOVA，沒有人是一個人學習。</span><span class="ln">從報名那天起，<span class="ac">就有一位教練一路陪你到交出作品。</span></span></p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="inner">
+      <span>NOVA 超星計畫 · 學員服務藍圖</span>
+      <span>網頁 AI 教練 <b>已上線</b> · 課程進度與 LINE 主動關懷 <b>即將推出</b></span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  (function(){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
